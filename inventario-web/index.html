@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inicio - Inventario</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .bienvenida {
+            background: #e5d4f5;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            color: #4e3264;
+        }
+
+        .bienvenida h2 {
+            margin-bottom: 10px;
+        }
+
+        .resumen {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .estadistica {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #e5d4f5;
+        }
+
+        .estadistica h3 {
+            font-size: 15px;
+            color: #75439a;
+            margin-bottom: 12px;
+        }
+
+        .estadistica strong {
+            font-size: 32px;
+            color: #75439a;
+        }
+
+        .accesos {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .acceso {
+            display: inline-block;
+            background: #75439a;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .acceso:hover {
+            background: #603480;
+            color: white;
+        }
+
+        .acceso-secundario {
+            background: #eee5f9;
+            color: #75439a;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header class="barra-superior">
+
+        <div class="marca">
+            <span>▣</span> Inventario
+        </div>
+
+        <div class="separador"></div>
+
+        <div class="titulo-superior">
+            ⌂ Inicio
+        </div>
+
+    </header>
+
+    <div class="contenedor">
+
+        <aside class="menu">
+
+            <nav>
+
+                <a href="index.html" class="activo">
+                    ⌂ Inicio
+                </a>
+
+                <a href="productos.html">
+                    ▤ Productos
+                </a>
+
+                <a href="agregar.html">
+                    + Agregar producto
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <main class="contenido">
+
+            <h1>Inicio</h1>
+
+            <p>Sistema de administración de inventario.</p>
+
+            <br>
+
+            <div class="bienvenida">
+
+                <h2>Bienvenido al sistema de inventario</h2>
+
+                <p>
+                    Administra tus productos de manera sencilla.
+                    Consulta las existencias, registra nuevos
+                    productos y actualiza su información.
+                </p>
+
+            </div>
+
+            <h2>Resumen del inventario</h2>
+
+            <div class="resumen">
+
+                <div class="estadistica">
+
+                    <h3>Productos registrados</h3>
+
+                    <strong id="totalProductos">0</strong>
+
+                </div>
+
+                <div class="estadistica">
+
+                    <h3>Unidades disponibles</h3>
+
+                    <strong id="totalUnidades">0</strong>
+
+                </div>
+
+                <div class="estadistica">
+
+                    <h3>Categorías registradas</h3>
+
+                    <strong id="totalCategorias">0</strong>
+
+                </div>
+
+                <div class="estadistica">
+
+                    <h3>Productos agotados</h3>
+
+                    <strong id="totalAgotados">0</strong>
+
+                </div>
+
+            </div>
+
+            <div class="tarjeta">
+
+                <h2>Accesos rápidos</h2>
+
+                <p>Selecciona la actividad que deseas realizar.</p>
+
+                <div class="accesos">
+
+                    <a href="productos.html" class="acceso">
+                        ▤ Ver productos
+                    </a>
+
+                    <a href="agregar.html"
+                       class="acceso acceso-secundario">
+
+                        + Agregar producto
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        // Productos iniciales
+
+        const productosIniciales = [
+
+            {
+                id: 1,
+                nombre: "Lápiz",
+                categoria: "Papelería",
+                descripcion: "Lápiz de escritura",
+                cantidad: 120
+            },
+
+            {
+                id: 2,
+                nombre: "Cuaderno",
+                categoria: "Papelería",
+                descripcion: "Cuaderno escolar",
+                cantidad: 50
+            },
+
+            {
+                id: 3,
+                nombre: "Borrador",
+                categoria: "Papelería",
+                descripcion: "Borrador blanco",
+                cantidad: 35
+            },
+
+            {
+                id: 4,
+                nombre: "Regla",
+                categoria: "Papelería",
+                descripcion: "Regla de 30 cm",
+                cantidad: 40
+            }
+
+        ];
+
+        // Crear almacenamiento local si no existe
+
+        if (localStorage.getItem("productos") === null) {
+
+            localStorage.setItem(
+
+                "productos",
+
+                JSON.stringify(productosIniciales)
+
+            );
+
+        }
+
+        // Actualizar resumen del inventario
+
+        function actualizarResumen() {
+
+            const productos = JSON.parse(
+
+                localStorage.getItem("productos")
+
+            ) || [];
+
+            // Total de productos
+
+            const totalProductos = productos.length;
+
+            // Total de unidades disponibles
+
+            const totalUnidades = productos.reduce(
+
+                (total, producto) => total + Number(producto.cantidad),
+
+                0
+
+            );
+
+            // Total de categorías diferentes
+
+            const totalCategorias = new Set(
+
+                productos.map(producto => producto.categoria)
+
+            ).size;
+
+            // Productos sin existencia
+
+            const totalAgotados = productos.filter(
+
+                producto => Number(producto.cantidad) === 0
+
+            ).length;
+
+            // Mostrar los resultados
+
+            document.getElementById("totalProductos").textContent =
+                totalProductos;
+
+            document.getElementById("totalUnidades").textContent =
+                totalUnidades;
+
+            document.getElementById("totalCategorias").textContent =
+                totalCategorias;
+
+            document.getElementById("totalAgotados").textContent =
+                totalAgotados;
+
+        }
+
+        actualizarResumen();
+
+        window.addEventListener("pageshow", actualizarResumen);
+
+        window.addEventListener("storage", actualizarResumen);
+
+    </script>
+
+</body>
+
+</html>

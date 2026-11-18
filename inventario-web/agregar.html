@@ -1,0 +1,560 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar producto</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .formulario-producto {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(76, 45, 110, 0.08);
+        }
+
+        .cabecera-producto {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: #e5d4f3;
+            padding: 18px 28px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #23143e;
+        }
+
+        .icono-nuevo {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #75439a;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #75439a;
+            flex-shrink: 0;
+        }
+
+        .cabecera-producto h2 {
+            font-size: 20px;
+            margin: 0 0 4px;
+        }
+
+        .cabecera-producto p {
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .campos-producto {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: 35px;
+            row-gap: 20px;
+        }
+
+        .campo-producto {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 0;
+        }
+
+        .campo-completo {
+            grid-column: 1 / -1;
+        }
+
+        .campo-producto label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #23143e;
+        }
+
+        .obligatorio {
+            color: #d43762;
+        }
+
+        .campo-producto input,
+        .campo-producto select,
+        .campo-producto textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border: 1px solid #c8a7ee;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #23143e;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            margin: 0;
+        }
+
+        .campo-producto input,
+        .campo-producto select {
+            min-height: 41px;
+        }
+
+        .campo-producto textarea {
+            height: 76px;
+            resize: vertical;
+        }
+
+        .campo-producto input:focus,
+        .campo-producto select:focus,
+        .campo-producto textarea:focus {
+            border-color: #75439a;
+            box-shadow: 0 0 0 2px #eee5f9;
+        }
+
+        .acciones-formulario {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid #eee5f9;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+
+        .acciones-formulario .cancelar-producto,
+        .acciones-formulario .guardar-producto {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            min-height: 41px;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .acciones-formulario .cancelar-producto {
+            background: #ffffff;
+            border: 1px solid #c8a7ee;
+            color: #75439a;
+        }
+
+        .acciones-formulario .guardar-producto {
+            background: #75439a;
+            border: 1px solid #75439a;
+            color: #ffffff;
+        }
+
+        .acciones-formulario .cancelar-producto:hover {
+            background: #f3ebfa;
+        }
+
+        .acciones-formulario .guardar-producto:hover {
+            background: #603480;
+        }
+
+        #mensaje {
+            color: #c23750;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        #mensaje:empty {
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .campos-producto {
+                grid-template-columns: 1fr;
+            }
+
+            .cabecera-producto {
+                padding: 15px;
+            }
+
+            .acciones-formulario {
+                flex-wrap: wrap;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header class="barra-superior">
+
+        <div class="marca">
+            <span>▣</span> Inventario
+        </div>
+
+        <div class="separador"></div>
+
+        <div class="titulo-superior">
+            + Agregar producto
+        </div>
+
+    </header>
+
+    <div class="contenedor">
+
+        <aside class="menu">
+
+            <nav>
+
+                <a href="index.html">
+                    ⌂ Inicio
+                </a>
+
+                <a href="productos.html">
+                    ▤ Productos
+                </a>
+
+                <a href="agregar.html" class="activo">
+                    + Agregar producto
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <main class="contenido">
+
+            <div class="formulario-producto">
+
+                <div class="cabecera-producto">
+
+                    <div class="icono-nuevo">
+                        +
+                    </div>
+
+                    <div>
+
+                        <h2>Nuevo producto</h2>
+
+                        <p>
+                            Ingresa la información del producto
+                            para registrarlo en el inventario.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <form id="formProducto">
+
+                    <div class="campos-producto">
+
+                        <div class="campo-producto">
+
+                            <label for="nombre">
+                                Nombre del producto
+                                <span class="obligatorio">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nombre"
+                                name="nombre"
+                                maxlength="100"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="campo-producto">
+
+                            <label for="categoria">
+                                Categoría
+                                <span class="obligatorio">*</span>
+                            </label>
+
+                            <select
+                                id="categoria"
+                                name="categoria"
+                                required
+                            >
+
+                                <option value="">
+                                    Selecciona una categoría
+                                </option>
+
+                                <option value="Computación">
+                                    Computación
+                                </option>
+
+                                <option value="Electrónica">
+                                    Electrónica
+                                </option>
+
+                                <option value="Papelería">
+                                    Papelería
+                                </option>
+
+                                <option value="Accesorios">
+                                    Accesorios
+                                </option>
+
+                                <option value="Otros">
+                                    Otros
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="campo-producto campo-completo">
+
+                            <label for="descripcion">
+                                Descripción
+                            </label>
+
+                            <textarea
+                                id="descripcion"
+                                name="descripcion"
+                                rows="3"
+                            ></textarea>
+
+                        </div>
+
+                        <div class="campo-producto">
+
+                            <label for="cantidad">
+                                Cantidad
+                                <span class="obligatorio">*</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="cantidad"
+                                name="cantidad"
+                                min="0"
+                                max="2147483647"
+                                step="1"
+                                value="0"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <p id="mensaje" role="alert"></p>
+
+                    <div class="acciones-formulario">
+
+                        <a
+                            href="productos.html"
+                            class="cancelar-producto"
+                        >
+                            × &nbsp; Cancelar
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="guardar-producto"
+                        >
+                            Guardar producto
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        // Productos iniciales
+
+        const productosIniciales = [
+
+            {
+                id: 1,
+                nombre: "Lápiz",
+                categoria: "Papelería",
+                descripcion: "Lápiz de escritura",
+                cantidad: 120
+            },
+
+            {
+                id: 2,
+                nombre: "Cuaderno",
+                categoria: "Papelería",
+                descripcion: "Cuaderno escolar",
+                cantidad: 50
+            },
+
+            {
+                id: 3,
+                nombre: "Borrador",
+                categoria: "Papelería",
+                descripcion: "Borrador blanco",
+                cantidad: 35
+            },
+
+            {
+                id: 4,
+                nombre: "Regla",
+                categoria: "Papelería",
+                descripcion: "Regla de 30 cm",
+                cantidad: 40
+            }
+
+        ];
+
+        // Crear almacenamiento local
+
+        if (localStorage.getItem("productos") === null) {
+
+            localStorage.setItem(
+                "productos",
+                JSON.stringify(productosIniciales)
+            );
+
+        }
+
+        const formulario = document.getElementById("formProducto");
+
+        const mensaje = document.getElementById("mensaje");
+
+        // Guardar producto
+
+        formulario.addEventListener("submit", function(evento) {
+
+            evento.preventDefault();
+
+            mensaje.textContent = "";
+
+            const nombre = document.getElementById("nombre")
+                .value.trim();
+
+            const categoria = document.getElementById("categoria")
+                .value;
+
+            const descripcion = document.getElementById("descripcion")
+                .value.trim();
+
+            const cantidadTexto = document.getElementById("cantidad")
+                .value;
+
+            const cantidad = Number(cantidadTexto);
+
+            // Validar campos obligatorios
+
+            if (nombre === "" || categoria === "") {
+
+                mensaje.textContent =
+                    "Completa los campos obligatorios.";
+
+                return;
+
+            }
+
+            // Validar cantidad
+
+            if (
+                cantidadTexto === "" ||
+                !Number.isInteger(cantidad) ||
+                cantidad < 0 ||
+                cantidad > 2147483647
+            ) {
+
+                mensaje.textContent =
+                    "Ingresa una cantidad válida.";
+
+                return;
+
+            }
+
+            try {
+
+                // Recuperar productos registrados
+
+                const productos = JSON.parse(
+                    localStorage.getItem("productos")
+                ) || [];
+
+                // Evitar productos duplicados
+
+                const duplicado = productos.some(producto =>
+
+                    producto.nombre.toLowerCase() ===
+                    nombre.toLowerCase() &&
+
+                    producto.categoria === categoria
+
+                );
+
+                if (duplicado) {
+
+                    mensaje.textContent =
+                        "Este producto ya se encuentra registrado.";
+
+                    return;
+
+                }
+
+                // Generar ID automáticamente
+
+                const id = productos.length > 0
+
+                    ? Math.max(...productos.map(p => p.id)) + 1
+
+                    : 1;
+
+                // Crear producto
+
+                const nuevoProducto = {
+
+                    id: id,
+                    nombre: nombre,
+                    categoria: categoria,
+                    descripcion: descripcion,
+                    cantidad: cantidad
+
+                };
+
+                // Guardar producto
+
+                productos.push(nuevoProducto);
+
+                localStorage.setItem(
+                    "productos",
+                    JSON.stringify(productos)
+                );
+
+                alert("Producto guardado correctamente.");
+
+                window.location.href = "productos.html";
+
+            } catch (error) {
+
+                mensaje.textContent =
+                    "No se pudo guardar el producto.";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

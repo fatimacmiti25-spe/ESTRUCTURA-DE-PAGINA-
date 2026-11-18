@@ -1,0 +1,945 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Productos</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .acciones {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-editar,
+        .btn-eliminar {
+            padding: 9px 14px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-editar {
+            background: #75439a;
+        }
+
+        .btn-eliminar {
+            background: #c94c58;
+        }
+
+        .btn-editar:hover {
+            background: #603480;
+        }
+
+        .btn-eliminar:hover {
+            background: #ad3945;
+        }
+
+        .herramientas-productos {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 18px 0;
+        }
+
+        .buscador-productos {
+            width: 100%;
+            max-width: 350px;
+            padding: 12px;
+            border: 1px solid #d5c5e5;
+            border-radius: 7px;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        .btn-excel {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #217346;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            width: auto;
+            margin: 0;
+        }
+
+        .btn-excel:hover {
+            background: #195b37;
+        }
+
+        .tabla-productos {
+            overflow-x: auto;
+        }
+
+        dialog {
+            width: 90%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow: auto;
+            margin: auto;
+            padding: 25px;
+            border: none;
+            border-radius: 12px;
+            background: white;
+            color: #4e3264;
+            box-sizing: border-box;
+        }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        dialog h2 {
+            margin-bottom: 20px;
+        }
+
+        dialog label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        dialog input,
+        dialog select,
+        dialog textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d5c5e5;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .botones-edicion {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-guardar,
+        .btn-cancelar {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-guardar {
+            background: #75439a;
+            color: white;
+        }
+
+        .btn-cancelar {
+            background: #eee5f9;
+            color: #75439a;
+        }
+
+        #mensaje {
+            color: #75439a;
+            margin: 10px 0;
+        }
+
+        #mensaje:empty {
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .herramientas-productos {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .buscador-productos {
+                max-width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header class="barra-superior">
+
+        <div class="marca">
+            <span>▣</span> Inventario
+        </div>
+
+        <div class="separador"></div>
+
+        <div class="titulo-superior">
+            ▤ Productos
+        </div>
+
+    </header>
+
+    <div class="contenedor">
+
+        <aside class="menu">
+
+            <nav>
+
+                <a href="index.html">
+                    ⌂ Inicio
+                </a>
+
+                <a href="productos.html" class="activo">
+                    ▤ Productos
+                </a>
+
+                <a href="agregar.html">
+                    + Agregar producto
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <main class="contenido">
+
+            <h1>Inventario de productos</h1>
+
+            <p>Consulta y administra los productos registrados.</p>
+
+            <div class="herramientas-productos">
+
+                <input
+                    type="search"
+                    id="buscador"
+                    class="buscador-productos"
+                    placeholder="Buscar producto..."
+                >
+
+                <button
+                    type="button"
+                    class="btn-excel"
+                    onclick="exportarExcel()"
+                >
+                    ↓ Exportar a Excel
+                </button>
+
+            </div>
+
+            <p id="mensaje" role="status"></p>
+
+            <div class="tarjeta tabla-productos">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Descripción</th>
+                            <th>Existencia</th>
+                            <th>Acciones</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="listaProductos"></tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Ventana para modificar productos -->
+
+    <dialog id="ventanaEditar">
+
+        <h2>Modificar producto</h2>
+
+        <form id="formEditar">
+
+            <input type="hidden" id="editarId">
+
+            <label for="editarNombre">
+                Nombre del producto
+            </label>
+
+            <input
+                type="text"
+                id="editarNombre"
+                maxlength="100"
+                required
+            >
+
+            <label for="editarCategoria">
+                Categoría
+            </label>
+
+            <select id="editarCategoria" required>
+
+                <option value="">
+                    Selecciona una categoría
+                </option>
+
+                <option value="Computación">
+                    Computación
+                </option>
+
+                <option value="Electrónica">
+                    Electrónica
+                </option>
+
+                <option value="Papelería">
+                    Papelería
+                </option>
+
+                <option value="Accesorios">
+                    Accesorios
+                </option>
+
+                <option value="Otros">
+                    Otros
+                </option>
+
+            </select>
+
+            <label for="editarDescripcion">
+                Descripción
+            </label>
+
+            <textarea
+                id="editarDescripcion"
+                rows="3"
+            ></textarea>
+
+            <label for="editarCantidad">
+                Existencia
+            </label>
+
+            <input
+                type="number"
+                id="editarCantidad"
+                min="0"
+                max="2147483647"
+                step="1"
+                required
+            >
+
+            <div class="botones-edicion">
+
+                <button
+                    type="submit"
+                    class="btn-guardar"
+                >
+                    Guardar cambios
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-cancelar"
+                    onclick="cerrarEdicion()"
+                >
+                    Cancelar
+                </button>
+
+            </div>
+
+        </form>
+
+    </dialog>
+
+    <!-- Librería para generar archivos Excel -->
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <script>
+
+        // Productos iniciales
+
+        const productosIniciales = [
+
+            {
+                id: 1,
+                nombre: "Lápiz",
+                categoria: "Papelería",
+                descripcion: "Lápiz de escritura",
+                cantidad: 120
+            },
+
+            {
+                id: 2,
+                nombre: "Cuaderno",
+                categoria: "Papelería",
+                descripcion: "Cuaderno escolar",
+                cantidad: 50
+            },
+
+            {
+                id: 3,
+                nombre: "Borrador",
+                categoria: "Papelería",
+                descripcion: "Borrador blanco",
+                cantidad: 35
+            },
+
+            {
+                id: 4,
+                nombre: "Regla",
+                categoria: "Papelería",
+                descripcion: "Regla de 30 cm",
+                cantidad: 40
+            }
+
+        ];
+
+
+        // Crear almacenamiento local
+
+        if (localStorage.getItem("productos") === null) {
+
+            localStorage.setItem(
+                "productos",
+                JSON.stringify(productosIniciales)
+            );
+
+        }
+
+
+        // Obtener productos registrados
+
+        function obtenerProductos() {
+
+            return JSON.parse(
+                localStorage.getItem("productos")
+            ) || [];
+
+        }
+
+
+        // Guardar productos
+
+        function guardarProductos(productos) {
+
+            try {
+
+                localStorage.setItem(
+                    "productos",
+                    JSON.stringify(productos)
+                );
+
+                return true;
+
+            } catch (error) {
+
+                alert("No se pudieron guardar los cambios.");
+
+                return false;
+
+            }
+
+        }
+
+
+        // Mostrar mensajes
+
+        function mostrarMensaje(texto) {
+
+            document.getElementById("mensaje")
+                .textContent = texto;
+
+        }
+
+
+        // Mostrar productos en la tabla
+
+        function mostrarProductos() {
+
+            const tabla = document.getElementById("listaProductos");
+
+            const busqueda = document.getElementById("buscador")
+                .value.toLowerCase().trim();
+
+            const productos = obtenerProductos().filter(producto =>
+
+                producto.nombre.toLowerCase().includes(busqueda) ||
+
+                producto.categoria.toLowerCase().includes(busqueda) ||
+
+                String(producto.id).includes(busqueda) ||
+
+                (producto.descripcion || "")
+                    .toLowerCase().includes(busqueda)
+
+            );
+
+            tabla.innerHTML = "";
+
+            if (productos.length === 0) {
+
+                tabla.innerHTML = `
+
+                    <tr>
+                        <td colspan="6">
+                            No se encontraron productos.
+                        </td>
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+            productos.forEach(producto => {
+
+                const fila = document.createElement("tr");
+
+                const datos = [
+
+                    producto.id,
+                    producto.nombre,
+                    producto.categoria,
+                    producto.descripcion || "",
+                    producto.cantidad
+
+                ];
+
+                datos.forEach(dato => {
+
+                    const celda = document.createElement("td");
+
+                    celda.textContent = dato;
+
+                    fila.appendChild(celda);
+
+                });
+
+                const acciones = document.createElement("td");
+
+                acciones.innerHTML = `
+
+                    <div class="acciones">
+
+                        <button
+                            type="button"
+                            class="btn-editar"
+                        >
+                            Modificar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-eliminar"
+                        >
+                            Eliminar
+                        </button>
+
+                    </div>
+
+                `;
+
+                acciones.querySelector(".btn-editar").onclick = () => {
+
+                    modificarProducto(producto.id);
+
+                };
+
+                acciones.querySelector(".btn-eliminar").onclick = () => {
+
+                    eliminarProducto(producto.id);
+
+                };
+
+                fila.appendChild(acciones);
+
+                tabla.appendChild(fila);
+
+            });
+
+        }
+
+
+        // Abrir ventana para modificar producto
+
+        function modificarProducto(id) {
+
+            const producto = obtenerProductos().find(
+
+                producto => producto.id === id
+
+            );
+
+            if (!producto) {
+
+                alert("El producto no existe.");
+
+                return;
+
+            }
+
+            document.getElementById("editarId").value =
+                producto.id;
+
+            document.getElementById("editarNombre").value =
+                producto.nombre;
+
+            document.getElementById("editarCategoria").value =
+                producto.categoria;
+
+            document.getElementById("editarDescripcion").value =
+                producto.descripcion || "";
+
+            document.getElementById("editarCantidad").value =
+                producto.cantidad;
+
+            document.getElementById("ventanaEditar").showModal();
+
+        }
+
+
+        // Cerrar ventana de edición
+
+        function cerrarEdicion() {
+
+            document.getElementById("ventanaEditar").close();
+
+        }
+
+
+        // Guardar cambios del producto
+
+        document.getElementById("formEditar")
+            .addEventListener("submit", function(evento) {
+
+                evento.preventDefault();
+
+                const id = Number(
+                    document.getElementById("editarId").value
+                );
+
+                const nombre = document.getElementById(
+                    "editarNombre"
+                ).value.trim();
+
+                const categoria = document.getElementById(
+                    "editarCategoria"
+                ).value;
+
+                const descripcion = document.getElementById(
+                    "editarDescripcion"
+                ).value.trim();
+
+                const cantidadTexto = document.getElementById(
+                    "editarCantidad"
+                ).value;
+
+                const cantidad = Number(cantidadTexto);
+
+
+                // Validar campos obligatorios
+
+                if (nombre === "" || categoria === "") {
+
+                    alert("Completa los campos obligatorios.");
+
+                    return;
+
+                }
+
+
+                // Validar cantidad
+
+                if (
+                    cantidadTexto === "" ||
+                    !Number.isInteger(cantidad) ||
+                    cantidad < 0 ||
+                    cantidad > 2147483647
+                ) {
+
+                    alert("Ingresa una cantidad válida.");
+
+                    return;
+
+                }
+
+
+                let productos = obtenerProductos();
+
+
+                // Evitar productos duplicados
+
+                const duplicado = productos.some(producto =>
+
+                    producto.id !== id &&
+
+                    producto.nombre.toLowerCase() ===
+                    nombre.toLowerCase() &&
+
+                    producto.categoria === categoria
+
+                );
+
+                if (duplicado) {
+
+                    alert(
+                        "Ya existe un producto con ese nombre y categoría."
+                    );
+
+                    return;
+
+                }
+
+
+                // Buscar producto
+
+                const posicion = productos.findIndex(
+
+                    producto => producto.id === id
+
+                );
+
+                if (posicion === -1) {
+
+                    alert("El producto no existe.");
+
+                    cerrarEdicion();
+
+                    return;
+
+                }
+
+
+                // Actualizar información
+
+                productos[posicion] = {
+
+                    id: id,
+                    nombre: nombre,
+                    categoria: categoria,
+                    descripcion: descripcion,
+                    cantidad: cantidad
+
+                };
+
+
+                if (!guardarProductos(productos)) {
+
+                    return;
+
+                }
+
+                cerrarEdicion();
+
+                mostrarProductos();
+
+                mostrarMensaje(
+                    "Producto modificado correctamente."
+                );
+
+            });
+
+
+        // Eliminar producto
+
+        function eliminarProducto(id) {
+
+            let productos = obtenerProductos();
+
+            const producto = productos.find(
+
+                producto => producto.id === id
+
+            );
+
+            if (!producto) {
+
+                alert("El producto no existe.");
+
+                return;
+
+            }
+
+            const confirmar = confirm(
+
+                "¿Deseas eliminar el producto " +
+                producto.nombre + "?"
+
+            );
+
+            if (!confirmar) {
+
+                return;
+
+            }
+
+            productos = productos.filter(
+
+                producto => producto.id !== id
+
+            );
+
+            if (!guardarProductos(productos)) {
+
+                return;
+
+            }
+
+            mostrarProductos();
+
+            mostrarMensaje(
+                "Producto eliminado correctamente."
+            );
+
+        }
+
+
+        // Generar reporte y exportar a Excel
+
+        function exportarExcel() {
+
+            const productos = obtenerProductos();
+
+            if (productos.length === 0) {
+
+                alert("No hay productos para generar el reporte.");
+
+                return;
+
+            }
+
+            if (typeof XLSX === "undefined") {
+
+                alert(
+                    "No se pudo cargar la librería de Excel. " +
+                    "Comprueba tu conexión a internet."
+                );
+
+                return;
+
+            }
+
+            try {
+
+                // Preparar información del reporte
+
+                const reporte = productos.map(producto => ({
+
+                    "ID": producto.id,
+                    "Producto": producto.nombre,
+                    "Categoría": producto.categoria,
+                    "Descripción": producto.descripcion || "",
+                    "Cantidad": producto.cantidad
+
+                }));
+
+
+                // Crear hoja de Excel
+
+                const hoja = XLSX.utils.json_to_sheet(reporte);
+
+
+                // Ajustar ancho de columnas
+
+                hoja["!cols"] = [
+
+                    { wch: 8 },
+                    { wch: 28 },
+                    { wch: 22 },
+                    { wch: 45 },
+                    { wch: 15 }
+
+                ];
+
+
+                // Agregar filtros a los encabezados
+
+                hoja["!autofilter"] = {
+
+                    ref: hoja["!ref"]
+
+                };
+
+
+                // Crear libro de Excel
+
+                const libro = XLSX.utils.book_new();
+
+
+                // Agregar hoja al libro
+
+                XLSX.utils.book_append_sheet(
+
+                    libro,
+
+                    hoja,
+
+                    "Inventario"
+
+                );
+
+
+                // Descargar archivo
+
+                XLSX.writeFile(
+
+                    libro,
+
+                    "Reporte_Inventario.xlsx"
+
+                );
+
+                mostrarMensaje(
+                    "Reporte de Excel generado correctamente."
+                );
+
+            } catch (error) {
+
+                alert("Ocurrió un error al generar el reporte.");
+
+            }
+
+        }
+
+
+        // Buscar productos
+
+        document.getElementById("buscador")
+            .addEventListener("input", mostrarProductos);
+
+
+        // Actualizar al regresar a la página
+
+        window.addEventListener("pageshow", mostrarProductos);
+
+        window.addEventListener("storage", mostrarProductos);
+
+
+        // Mostrar productos al abrir la página
+
+        mostrarProductos();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,536 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #f6f3fc;
+    color: #241637;
+}
+
+/* Barra superior */
+
+.barra-superior {
+    height: 55px;
+    background: #75439a;
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    gap: 25px;
+    color: white;
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+}
+
+.icono-marca {
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.separador {
+    height: 27px;
+    width: 1px;
+    background: #ffffff80;
+}
+
+.titulo-superior {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.titulo-superior span {
+    font-size: 23px;
+    font-weight: 600;
+}
+
+/* Estructura */
+
+.contenedor {
+    display: flex;
+    min-height: calc(100vh - 55px);
+}
+
+/* Menú lateral */
+
+.menu {
+    width: 190px;
+    flex-shrink: 0;
+    padding: 23px 12px;
+    background: #eee5f9;
+    border-right: 1px solid #e9dff5;
+}
+
+.menu nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 13px;
+    margin-bottom: 8px;
+    border-radius: 7px;
+    text-decoration: none;
+    color: #392453;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.menu nav a span {
+    font-size: 22px;
+    font-weight: 600;
+    width: 22px;
+    text-align: center;
+}
+
+.menu nav a:hover {
+    background: #e1d1f2;
+}
+
+.menu nav a.activo {
+    background: #75439a;
+    color: white;
+}
+
+/* Contenido principal */
+
+.contenido {
+    flex: 1;
+    min-width: 0;
+    padding: 20px 30px;
+}
+
+main {
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+/* Tarjeta */
+
+.tarjeta {
+    background: white;
+    border-radius: 13px;
+    padding: 14px 18px 18px;
+    box-shadow: 0 4px 18px #58387918;
+    border: 1px solid #eee7f6;
+}
+
+/* Encabezado del formulario */
+
+.encabezado-formulario {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 78px;
+    padding: 15px 28px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    color: #29163e;
+    background-color: #e5d4f5;
+}
+
+.icono-producto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    border: 2px solid #63398b;
+    border-radius: 9px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #63398b;
+    flex-shrink: 0;
+}
+
+.encabezado-formulario h2 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 3px;
+}
+
+.encabezado-formulario p {
+    font-size: 11px;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Campos del formulario */
+
+.fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+}
+
+.campo {
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #251635;
+}
+
+.campo label b {
+    color: #dc365c;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: 12px;
+    color: #352344;
+    background: white;
+    border: 1px solid #cbb5e6;
+    border-radius: 6px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #8658b4;
+    box-shadow: 0 0 0 3px #8658b41a;
+}
+
+textarea {
+    min-height: 65px;
+    resize: vertical;
+}
+
+.campo-cantidad {
+    width: calc(50% - 18px);
+}
+
+/* Botones */
+
+.botones {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    padding-top: 15px;
+    margin-top: 8px;
+    border-top: 1px solid #eee6f6;
+}
+
+.cancelar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    min-width: 120px;
+    border: 1px solid #c5a9df;
+    border-radius: 6px;
+    color: #573579;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    background: white;
+}
+
+.cancelar:hover {
+    background: #f5effb;
+}
+
+button {
+    padding: 11px 20px;
+    min-width: 165px;
+    border: none;
+    border-radius: 6px;
+    background: #75439a;
+    color: white;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #63398b;
+}
+
+/* Tablas */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    background: #e8d9f5;
+    color: #46276c;
+    padding: 12px;
+    text-align: left;
+    font-size: 12px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee7f6;
+    font-size: 12px;
+}
+
+tr:hover {
+    background: #faf6ff;
+}
+
+/* Mensajes */
+
+.mensaje {
+    background: #e8f6ed;
+    color: #246c40;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+/* Diseño adaptable */
+
+@media (max-width: 800px) {
+    .contenido {
+        padding: 15px;
+    }
+
+    .menu {
+        width: 165px;
+    }
+
+    .fila {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .barra-superior {
+        padding: 0 15px;
+        gap: 12px;
+    }
+
+    .marca {
+        font-size: 14px;
+    }
+
+    .titulo-superior {
+        font-size: 12px;
+    }
+
+    .contenedor {
+        flex-direction: column;
+    }
+
+    .menu {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .menu nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .menu nav a {
+        margin: 0;
+        padding: 9px;
+    }
+
+    .contenido {
+        padding: 15px;
+    }
+
+    .tarjeta {
+        padding: 12px;
+        overflow-x: auto;
+    }
+
+    .encabezado-formulario {
+        padding: 15px;
+    }
+
+    .fila {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .campo-cantidad {
+        width: 100%;
+    }
+
+    .botones {
+        flex-wrap: wrap;
+    }
+}
+
+/* Pagina de productos */
+
+.herramientas-productos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.contador-productos {
+    font-size: 13px;
+    color: #59466d;
+}
+
+.contador-productos strong {
+    color: #75439a;
+}
+
+.boton-agregar {
+    background: #75439a;
+    color: white;
+    text-decoration: none;
+    padding: 11px 18px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.boton-agregar:hover {
+    background: #63398b;
+}
+
+/* Tabla */
+
+.tabla-contenedor {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e4d7f0;
+    border-radius: 8px;
+}
+
+.tabla-contenedor table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-contenedor th {
+    background: #e5d4f5;
+    color: #392453;
+    text-align: left;
+    padding: 15px;
+    font-size: 13px;
+}
+
+.tabla-contenedor td {
+    padding: 16px;
+    border-bottom: 1px solid #eee7f6;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.tabla-contenedor td:nth-child(2) {
+    width: auto;
+}
+
+.tabla-contenedor tbody tr:nth-child(even) {
+    background: #faf7fd;
+}
+
+.tabla-contenedor tbody tr:hover {
+    background: #f0e5fa;
+}
+
+.cantidad-producto {
+    display: inline-block;
+    min-width: 45px;
+    background: #eee5f9;
+    color: #63398b;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+/* Botones de acciones */
+
+.acciones {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.acciones form {
+    margin: 0;
+}
+
+.btn-editar {
+    background: #e5d4f5;
+    color: #63398b;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.btn-editar:hover {
+    background: #d6bcec;
+}
+
+.btn-eliminar {
+    background: #fbe5e8;
+    color: #b83e50;
+    padding: 8px 12px;
+    min-width: auto;
+    border: none;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-eliminar:hover {
+    background: #efc3ca;
+}
+
+.sin-productos {
+    text-align: center;
+    padding: 30px;
+    color: #897b98;
+}
+
+footer {
+    text-align: center;
+    color: #897b98;
+    font-size: 12px;
+    padding: 25px;
+}
+
+@media (max-width: 600px) {
+
+    .herramientas-productos {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .boton-agregar {
+        text-align: center;
+    }
+
+}
